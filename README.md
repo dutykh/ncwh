@@ -38,7 +38,7 @@ Noncommutative geometry replaces the point-like mass distribution of the classic
 Schwarzschild solution by a minimal-width Gaussian, which regularises the central
 singularity and, for a suitable range of the rescaled mass, opens a traversable
 throat. The resulting spacetime supports a discrete set of damped oscillations, the
-quasinormal modes, whose complex frequencies $\omega$ carry the fingerprint of the
+quasinormal modes, whose complex frequencies `ω` carry the fingerprint of the
 underlying geometry.
 
 This repository contains everything needed to reproduce the frequencies reported in
@@ -101,31 +101,41 @@ it into a finite matrix problem.
 **1. Fix the boundary behaviour.** An ansatz factors out the oscillatory and
 divergent behaviour at the throat and at spatial infinity, leaving a function that is
 regular at both ends. Two admissible factorisations are used, labelled BC1 and BC2;
-they differ by a $\sqrt{1-1/x}$ prefactor, which shifts the indicial exponents and
+they differ by a `√(1 - 1/x)` prefactor, which shifts the indicial exponents and
 therefore leads to two different, mutually confirming, discretisations.
 
 **2. Compactify.** The Möbius change of variable
 
-$$z = \frac{2}{1-y}$$
+```text
+z = 2 / (1 - y)
+```
 
-maps the physical domain $z \in [1, \infty)$ onto $y \in [-1, 1]$, with $y = -1$ the
-throat and $y = +1$ spatial infinity.
+maps the physical domain `z ∈ [1, ∞)` onto `y ∈ [-1, 1]`, with `y = -1` the
+throat and `y = +1` spatial infinity.
 
 **3. Collocate.** The unknown is expanded in Chebyshev polynomials of the first kind,
 
-$$P(y) = \sum_{j=0}^{n-1} a_j\, T_j (y),$$
+```text
+         n-1
+P(y)  =   Σ   a_j T_j(y)
+         j=0
+```
 
-and the transformed ODE is imposed at the $n$ Chebyshev roots
+and the transformed ODE is imposed at the `n` Chebyshev roots
 
-$$y_i = \cos\left(\frac{(2i-1)\pi}{2n}\right), \qquad i = 1, \ldots, n.$$
+```text
+y_i = cos( (2i - 1) π / (2n) ),    i = 1, ..., n
+```
 
-Because the coefficients of the ODE are polynomials of degree two in $\omega$, the
-collocation conditions collect into three $n \times n$ matrices $M_0$, $M_1$, $M_2$.
+Because the coefficients of the ODE are polynomials of degree two in the frequency
+`ω`, the collocation conditions collect into three `n × n` matrices `M0`, `M1`, `M2`.
 
 **4. Solve.** The frequencies are the roots of the quadratic polynomial eigenvalue
 problem
 
-$$\left(M_0 + i\,\omega\,M_1 + \omega^2 M_2\right) \mathbf{a} = 0,$$
+```text
+( M0 + i ω M1 + ω² M2 ) a = 0
+```
 
 solved with `polyeig` in extended precision. Spectra obtained at several resolutions
 are superposed: the eigenvalues that persist are the physical QNMs, the rest are
@@ -143,7 +153,7 @@ Two labels are combined in every filename.
   identified by the rescaled mass `mu`, the error function and the Gaussian smearing
   term. Files with the `s` prefix (`sbc1`, `sbc2`) and the worksheets marked
   `FROM THROAT` treat the **classical Schwarzschild** wormhole, whose metric function
-  reduces to the closed form $f(x) = 1 - 1/x$ with the throat fixed at $x = 1$.
+  reduces to the closed form `f(x) = 1 - 1/x` with the throat fixed at `x = 1`.
 - **Boundary condition.** `BC1` and `BC2` are the two factorisations of step 1 above.
   For the classical worksheets this distinction is carried by the `01-` and `02-`
   numeric prefix instead.
@@ -154,7 +164,7 @@ and in the header comments of the assembly procedures.
 ### Symbolic derivations (Maple worksheets)
 
 Each worksheet reproduces, cell by cell, the reduction of the perturbation equation
-to the collocated form, together with the one-sided limits at $y = \pm 1$ that
+to the collocated form, together with the one-sided limits at `y = ±1` that
 classify the endpoints and populate the classification tables of the paper. They are
 saved as executed worksheets, so the outputs are visible without rerunning them.
 
@@ -192,7 +202,9 @@ Arguments:
 In the noncommutative cases the procedure first locates the outer throat `x0` as the
 root of
 
-$$1 - \frac{\mathrm{erf}(\mu x)}{x} + \frac{2\mu}{\sqrt{\pi}}\,e^{-\mu^2 x^2} = 0$$
+```text
+1 - erf(μ x) / x + (2 μ / √π) exp(-μ² x²) = 0
+```
 
 by `fsolve`, reports it, and only then builds the potential and the nine ODE
 coefficients. In the classical cases the coefficients are closed-form polynomials in
@@ -203,7 +215,7 @@ coefficients. In the classical cases the coefficients are closed-form polynomial
 `chaseQNMs.m` performs step 4. It loops over the resolutions `n = 200, 150, 100`,
 sets the working precision to `n` decimal digits, reads the three matrices produced
 by Maple, solves `polyeig(M0, 1i*M1, M2)`, and overlays the three spectra in the
-complex $\omega$ plane with distinct markers. Superposition is the convergence
+complex `ω` plane with distinct markers. Superposition is the convergence
 diagnostic: converged frequencies coincide across resolutions, spurious ones migrate.
 
 ### Which worksheet goes with which assembler
@@ -343,7 +355,7 @@ in [`LICENSE`](LICENSE).
 |:--|:--|:--|
 | Dr. Davide Batic | Mathematics Department, Khalifa University of Science and Technology, Abu Dhabi, UAE | [davide.batic@ku.ac.ae](mailto:davide.batic@ku.ac.ae) |
 | Dr. Denys Dutykh | Mathematics Department, Khalifa University of Science and Technology, Abu Dhabi, UAE | [denys.dutykh@ku.ac.ae](mailto:denys.dutykh@ku.ac.ae) |
-| Ms. Joudy Jamal Beek | Physics Department, Khalifa University of Science and Technology, Abu Dhabi, UAE | |
+| Ms. Joudy Feras Jamal Beek | Physics Department, Khalifa University of Science and Technology, Abu Dhabi, UAE | [KU100061683@alumni.ku.ac.ae](mailto:KU100061683@alumni.ku.ac.ae) |
 
 Questions, corrections and reports of successful reuse are welcome. For the broader
 series of spectral QNM studies, see the
