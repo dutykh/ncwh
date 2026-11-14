@@ -1,247 +1,63 @@
-# Quasinormal modes of noncommutative geometry-inspired wormholes
+<!-- Author: Dr. Denys Dutykh (Mathematics Department, Khalifa University of Science and Technology, Abu Dhabi, UAE) -->
 
-[![Class. Quantum Grav.](https://img.shields.io/badge/Class.%20Quantum%20Grav.-42%20%282025%29%20085003-005a9c)](https://iopscience.iop.org/article/10.1088/1361-6382/adc2c6)
-[![DOI](https://img.shields.io/badge/DOI-10.1088%2F1361--6382%2Fadc2c6-1a7f37)](https://doi.org/10.1088/1361-6382/adc2c6)
-[![arXiv](https://img.shields.io/badge/arXiv-2504.02370-b31b1b)](https://arxiv.org/abs/2504.02370)
-[![License: LGPL v2.1](https://img.shields.io/badge/License-LGPL%20v2.1-4c1)](LICENSE)
-[![Maple](https://img.shields.io/badge/Maple-18%2B-ff6f00)](https://www.maplesoft.com/products/Maple/)
-[![MATLAB](https://img.shields.io/badge/MATLAB-Advanpix%20MCT-0076a8)](https://www.advanpix.com/)
-[![QNMs Hall of Fame](https://img.shields.io/badge/QNMs-Hall%20of%20Fame-8a2be2)](https://qnms.denys-dutykh.com/)
-[![GitHub](https://img.shields.io/badge/GitHub-dutykh%2Fncwh-181717?logo=github)](https://github.com/dutykh/ncwh)
-[![Last commit](https://img.shields.io/github/last-commit/dutykh/ncwh)](https://github.com/dutykh/ncwh/commits/main)
+# ncwh: quasinormal modes of noncommutative geometry-inspired wormholes
 
-**Authors**: Dr. Davide Batic, Dr. Denys Dutykh, and Ms. Joudy Jamal Beek
-(Khalifa University of Science and Technology, Abu Dhabi, UAE)
+![The throat and the potentials of the noncommutative geometry-inspired wormhole](docs/figures/ncwh-throat.png)
 
-Computational supplemental material for the study of quasinormal modes (QNMs) of
-noncommutative geometry-inspired wormholes, computed with a Chebyshev collocation
-spectral method coupled to a multiprecision polynomial eigenvalue solver.
+Panel (a) shows the function f(x) = 1 − erf(μx)/x + (2μ/√π) e^(−μ²x²), whose larger zero is the throat x0 of the
+wormhole (circles): at the extremal mass μ_e = 1.904119 its two zeros merge at x_e = 0.793658; at μ = 1.91, the
+near-extremal case of the article, x0 = 0.830987; at μ = 2.3, x0 = 0.983286. Far from the throat f joins 1 − 1/x, the
+function of the classical Schwarzschild wormhole, whose throat is at x = 1. Panel (b) shows, against z = x/x0, the
+potentials of the scalar (s = 0), electromagnetic (s = 1) and vector-type gravitational (s = 2) perturbations with ℓ = 2
+at μ = 1.91: they are largest at the throat and decay like ℓ(ℓ + 1)/z².
 
-## Contents
+ncwh holds the Maple and MATLAB material of a study of the quasinormal modes of the wormhole inspired by noncommutative
+geometry, whose spatial geometry is that of the noncommutative Schwarzschild black hole (a point mass smeared into a
+Gaussian of width √θ), and of the classical Schwarzschild wormhole, its limit when the rescaled mass μ = M/√θ is large.
+It computes the frequencies at which massless scalar (s = 0), electromagnetic (s = 1) and vector-type gravitational
+(s = 2) perturbations ring and decay outside the throat, under two different boundary conditions at the throat. Maple
+procedures assemble, in multiprecision arithmetic, the Chebyshev collocation of the compactified radial equation, and a
+MATLAB driver solves the resulting quadratic eigenvalue problem with the Advanpix Multiprecision Computing Toolbox and
+draws the spectra of three resolutions on one picture. The method and the results are those of the article by Davide
+Batic, Denys Dutykh and Joudy Jamal Beek in Classical and Quantum Gravity (2025), cited below.
 
-- [Overview](#overview)
-- [The paper](#the-paper)
-- [QNMs Hall of Fame](#qnms-hall-of-fame)
-- [The method in a nutshell](#the-method-in-a-nutshell)
-- [What is in this repository](#what-is-in-this-repository)
-- [Requirements](#requirements)
-- [Quick start](#quick-start)
-- [Reproducing the classical limit](#reproducing-the-classical-limit)
-- [Practical notes](#practical-notes)
-- [How to cite](#how-to-cite)
-- [License](#license)
-- [Authors and contact](#authors-and-contact)
+## The problem
 
-## Overview
-
-Noncommutative geometry replaces the point-like mass distribution of the classical
-Schwarzschild solution by a minimal-width Gaussian, which regularises the central
-singularity and, for a suitable range of the rescaled mass, opens a traversable
-throat. The resulting spacetime supports a discrete set of damped oscillations, the
-quasinormal modes, whose complex frequencies `ω` carry the fingerprint of the
-underlying geometry.
-
-This repository contains everything needed to reproduce the frequencies reported in
-the accompanying paper, for scalar, electromagnetic and vector-type gravitational
-perturbations:
-
-1. the Maple worksheets that carry out the symbolic reduction of the perturbation
-   equation and the boundary analysis at the throat and at spatial infinity;
-2. the Maple procedures that assemble the spectral matrices at a prescribed
-   resolution;
-3. the Matlab driver that solves the resulting polynomial eigenvalue problem in
-   multiprecision arithmetic and displays the spectrum.
-
-The classical Schwarzschild wormhole is treated by the same pipeline and serves as
-the reference case: as the rescaled mass parameter grows, the noncommutative
-frequencies converge to the classical ones, which is the accuracy test reported in
-the paper.
-
-## The paper
-
-> Davide Batic, Denys Dutykh and Joudy Jamal Beek,
-> *A spectral approach for quasinormal frequencies of noncommutative
-> geometry-inspired wormholes*,
-> **Classical and Quantum Gravity**, Volume 42, Number 8, 085003 (2025).
-
-| Resource | Link |
-|:--|:--|
-| Published version | [iopscience.iop.org/article/10.1088/1361-6382/adc2c6](https://iopscience.iop.org/article/10.1088/1361-6382/adc2c6) |
-| DOI | [10.1088/1361-6382/adc2c6](https://doi.org/10.1088/1361-6382/adc2c6) |
-| Preprint | [arXiv:2504.02370](https://arxiv.org/abs/2504.02370) [gr-qc] |
-| Code | [github.com/dutykh/ncwh](https://github.com/dutykh/ncwh) |
-
-Citation line: Davide Batic *et al* 2025 *Class. Quantum Grav.* **42** 085003.
-Published 2 April 2025.
-
-## QNMs Hall of Fame
-
-This repository is one instalment of a longer series. All of it lives at
-
-**[qnms.denys-dutykh.com](https://qnms.denys-dutykh.com/)**
-
-the *Quasi-Normal Modes Hall of Fame*, which gathers, under the banner of
-*Celestial Music*, the spectral-method QNM studies carried out at the Mathematics
-Department of Khalifa University. Every entry there links its journal version, its
-arXiv preprint and its companion code repository, so the site is the natural place to
-start if you want the wider picture rather than this single spacetime. The wormhole
-paper accompanying the present codes is listed among them.
-
-Sister studies published in the same programme cover Gauss–Bonnet black holes, the
-Kazakov–Solodukhin quantum-corrected black hole, Bonanno–Reuter black holes, Planck
-stars, noncommutative dirty black holes, noncommutative Schwarzschild black holes,
-Lee-Wick black holes, massive static phantom wormholes and Morris–Thorne wormholes.
-Several of them reuse, almost verbatim, the pipeline documented below.
-
-## The method in a nutshell
-
-The radial perturbation equation is a second-order ODE on a half-line. Four steps turn
-it into a finite matrix problem.
-
-**1. Fix the boundary behaviour.** An ansatz factors out the oscillatory and
-divergent behaviour at the throat and at spatial infinity, leaving a function that is
-regular at both ends. Two admissible factorisations are used, labelled BC1 and BC2;
-they differ by a `√(1 - 1/x)` prefactor, which shifts the indicial exponents and
-therefore leads to two different, mutually confirming, discretisations.
-
-**2. Compactify.** The Möbius change of variable
+The wormhole has no redshift function, and in the rescaled radius x = r/(2M) its line element is
+ds² = −dt² + dr²/f + r² dΩ², with
 
 ```text
-z = 2 / (1 - y)
+f(x) = 1 − erf(μx)/x + (2μ/√π) e^(−μ²x²),       μ = M/√θ,
 ```
 
-maps the physical domain `z ∈ [1, ∞)` onto `y ∈ [-1, 1]`, with `y = -1` the
-throat and `y = +1` spatial infinity.
-
-**3. Collocate.** The unknown is expanded in Chebyshev polynomials of the first kind,
+θ being the noncommutativity parameter (an area). For μ < μ_e = 1.904119076 the function f has no zero and there is no
+throat; at μ_e its two zeros merge at x_e = 0.7936575898, a degenerate configuration that is not a traversable
+wormhole; for μ > μ_e the throat is the larger zero x0, which tends to 1 as μ grows. With the time dependence
+e^(−iωt) and spherical harmonics of degree ℓ ⩾ s, each perturbation obeys, outside the throat,
 
 ```text
-         n-1
-P(y)  =   Σ   a_j T_j(y)
-         j=0
+√f d/dr( √f dψ/dr ) + [ ω² − U(r) ] ψ = 0,       U(r) = ℓ(ℓ + 1)/r² + (1 − s)(1 + 2s) f′(r)/(2r),
 ```
 
-and the transformed ODE is imposed at the `n` Chebyshev roots
+with the dimensionless frequency Ω = 2Mω, and Im Ω < 0 for a damped mode. In the variable z = x/x0 > 1 the throat is
+z = 1, a regular singular point, where the two exponents of Frobenius give two sets of boundary conditions: the field
+finite at the throat (Case A of the article for the noncommutative wormhole, Case I for the classical one), or the
+field vanishing there like √(1 − 1/z) (Cases B and II). At infinity the field is outgoing. Both behaviours are built
+into a factorisation of the solution, the map z = 2/(1 − y) sends the throat to y = −1 and infinity to y = +1, and the
+regular part is expanded in n Chebyshev polynomials collocated at the n roots y_i = cos((2i − 1)π/(2n)). The frequency
+enters the collocated equation at most quadratically, which gives
 
 ```text
-y_i = cos( (2i - 1) π / (2n) ),    i = 1, ..., n
+( M0 + i Ω M1 + Ω² M2 ) a = 0
 ```
 
-Because the coefficients of the ODE are polynomials of degree two in the frequency
-`ω`, the collocation conditions collect into three `n × n` matrices `M0`, `M1`, `M2`.
-
-**4. Solve.** The frequencies are the roots of the quadratic polynomial eigenvalue
-problem
-
-```text
-( M0 + i ω M1 + ω² M2 ) a = 0
-```
-
-solved with `polyeig` in extended precision. Spectra obtained at several resolutions
-are superposed: the eigenvalues that persist are the physical QNMs, the rest are
-numerical artefacts of the truncation.
-
-## What is in this repository
-
-The layout is flat. Nine files, in three groups matching the three stages above.
-
-### Naming convention
-
-Two labels are combined in every filename.
-
-- **Model.** Files without an `s` treat the **noncommutative** wormhole (`NCWH`),
-  identified by the rescaled mass `mu`, the error function and the Gaussian smearing
-  term. Files with the `s` prefix (`sbc1`, `sbc2`) and the worksheets marked
-  `FROM THROAT` treat the **classical Schwarzschild** wormhole, whose metric function
-  reduces to the closed form `f(x) = 1 - 1/x` with the throat fixed at `x = 1`.
-- **Boundary condition.** `BC1` and `BC2` are the two factorisations of step 1 above.
-  For the classical worksheets this distinction is carried by the `01-` and `02-`
-  numeric prefix instead.
-
-Only the non-extreme case is covered here, as recorded in the `NONEXTREME` filenames
-and in the header comments of the assembly procedures.
-
-### Symbolic derivations (Maple worksheets)
-
-Each worksheet reproduces, cell by cell, the reduction of the perturbation equation
-to the collocated form, together with the one-sided limits at `y = ±1` that
-classify the endpoints and populate the classification tables of the paper. They are
-saved as executed worksheets, so the outputs are visible without rerunning them.
-
-| File | Case | Content |
-|:--|:--|:--|
-| `01-NONEXTREME CASE_NCWH_BC1-SUPPLEMENTAL MATERIAL.mw` | Noncommutative, BC1 | Multiplication of the radial equation by `f(z)`, the BC1 ansatz, the transformed ODE, the definitions of `f(y)` and `V(y)`, the order of the zeroes and poles of the coefficients `S2`, `S1`, `S0`, the auxiliary functions `N1`, `N0` and `C2`, `C1`, `C0`, a consistency check against the assembled operator, and the endpoint limits. |
-| `01-NONEXTREME CASE_NCWH_BC2-SUPPLEMENTAL MATERIAL.mw` | Noncommutative, BC2 | The same programme for the ansatz `psi(z) = sqrt(1-1/z) * z^(i*Omega/2) * exp(i*x0*Omega*(z-1)) * Phi(z)`, ending with the definitions of `L00hat` to `L22hat` and their limits at both endpoints. |
-| `01-FROM THROAT_SCHWARZSCHILD WORMHOLE SUPPL MATERIAL.mw` | Classical, BC1 | Normal form of the ODE, indicial analysis at the throat and the asymptotic analysis at infinity, the ansatz without the square-root prefactor, the compactification, and the limits of the coefficients. |
-| `02-FROM THROAT_SCHWARZSCHILD WORMHOLE SUPPL MATERIAL.mw` | Classical, BC2 | Identical route with the ansatz carrying the extra `sqrt(1-1/x)` factor. |
-
-### Matrix assembly (Maple procedures)
-
-Each file defines a single procedure, `MatrixAssembler`, which performs step 3 and
-writes the three matrices to `data/M0_<n>.mat`, `data/M1_<n>.mat` and
-`data/M2_<n>.mat` in ASCII MATLAB format.
-
-| File | Case | Signature |
-|:--|:--|:--|
-| `matrixassembler_bc1.mpl` | Noncommutative, BC1 | `MatrixAssembler(d, n, s, L, mu, p)` |
-| `matrixassembler_bc2.mpl` | Noncommutative, BC2 | `MatrixAssembler(d, n, s, L, mu, p)` |
-| `matrixassembler_sbc1.mpl` | Classical, BC1 | `MatrixAssembler(d, n, s, L, p)` |
-| `matrixassembler_sbc2.mpl` | Classical, BC2 | `MatrixAssembler(d, n, s, L, p)` |
-
-Arguments:
-
-| Name | Meaning |
-|:--|:--|
-| `d` | number of digits used in the symbolic and floating-point computations |
-| `n` | number of Chebyshev modes, equal to the matrix size |
-| `s` | spin of the perturbation: `0` scalar, `1` electromagnetic, `2` vector-type gravitational |
-| `L` | angular momentum, required to satisfy `L >= s` |
-| `mu` | rescaled, dimensionless mass (noncommutative cases only) |
-| `p` | absolute path of the directory containing `data/` |
-
-In the noncommutative cases the procedure first locates the outer throat `x0` as the
-root of
-
-```text
-1 - erf(μ x) / x + (2 μ / √π) exp(-μ² x²) = 0
-```
-
-by `fsolve`, reports it, and only then builds the potential and the nine ODE
-coefficients. In the classical cases the coefficients are closed-form polynomials in
-`y` and no root finding is needed.
-
-### Eigenvalue solver (Matlab)
-
-`chaseQNMs.m` performs step 4. It loops over the resolutions `n = 200, 150, 100`,
-sets the working precision to `n` decimal digits, reads the three matrices produced
-by Maple, solves `polyeig(M0, 1i*M1, M2)`, and overlays the three spectra in the
-complex `ω` plane with distinct markers. Superposition is the convergence
-diagnostic: converged frequencies coincide across resolutions, spurious ones migrate.
-
-### Which worksheet goes with which assembler
-
-Nothing in the filenames records this, so it is worth stating explicitly. The final
-coefficient definitions of each worksheet are, term by term, the `L00` to `L22`
-entries of the corresponding procedure.
-
-| Symbolic derivation | Numerical implementation |
-|:--|:--|
-| `01-NONEXTREME CASE_NCWH_BC1-SUPPLEMENTAL MATERIAL.mw` | `matrixassembler_bc1.mpl` |
-| `01-NONEXTREME CASE_NCWH_BC2-SUPPLEMENTAL MATERIAL.mw` | `matrixassembler_bc2.mpl` |
-| `01-FROM THROAT_SCHWARZSCHILD WORMHOLE SUPPL MATERIAL.mw` | `matrixassembler_sbc1.mpl` |
-| `02-FROM THROAT_SCHWARZSCHILD WORMHOLE SUPPL MATERIAL.mw` | `matrixassembler_sbc2.mpl` |
-
-## Requirements
-
-| Component | Notes |
-|:--|:--|
-| Maple | The worksheets are saved in the Maple 18 format, so Maple 18 or any later release will open them. The assembly procedures use only `LinearAlgebra` and the standard library. |
-| Matlab | Any recent release. Only `polyeig` and base plotting are used. |
-| [Advanpix Multiprecision Computing Toolbox](https://www.advanpix.com/) | Required by `chaseQNMs.m` for the `mp` class. The QNM spectrum of a spectral discretisation of this size is not resolvable in double precision, so this dependency is not optional. The toolbox is commercial. |
+with three real n × n matrices; Maple exports `M1` without the factor i, which the driver applies when it solves the
+problem as `polyeig(M0, mp('1i')*M1, M2)`. The derivations and the limits of the coefficients at y = ±1 are in the
+article and in the worksheets.
 
 ## Quick start
 
-**1. Create the output directory.** It is not tracked in the repository:
+Each procedure writes its matrices into the folder `data/` of the path it is given, which must exist. In a terminal:
 
 ```bash
 git clone https://github.com/dutykh/ncwh.git
@@ -249,114 +65,111 @@ cd ncwh
 mkdir -p data
 ```
 
-**2. Assemble the matrices in Maple.** Read the procedure for the case of interest,
-then call it once per resolution. For the noncommutative wormhole with the first
-boundary condition, a scalar perturbation with `L = 2` and rescaled mass `mu = 1.5`:
+In Maple, read the procedure of the case and call it once per resolution; here the noncommutative wormhole with the
+first boundary condition (Case A), a scalar perturbation with ℓ = 2 and the near-extremal mass μ = 1.91 of the article:
 
 ```maple
 read "matrixassembler_bc1.mpl":
-MatrixAssembler(200, 200, 0, 2, 1.5, "/absolute/path/to/ncwh"):
-MatrixAssembler(200, 150, 0, 2, 1.5, "/absolute/path/to/ncwh"):
-MatrixAssembler(200, 100, 0, 2, 1.5, "/absolute/path/to/ncwh"):
+MatrixAssembler(200, 200, 0, 2, 1.91, "/absolute/path/to/ncwh"):
+MatrixAssembler(200, 150, 0, 2, 1.91, "/absolute/path/to/ncwh"):
+MatrixAssembler(200, 100, 0, 2, 1.91, "/absolute/path/to/ncwh"):
 ```
 
-The three resolutions match the `list` array at the top of `chaseQNMs.m`. Keep `d`
-greater than or equal to the largest `n`, since the Matlab driver sets its working
-precision to `n` digits.
-
-For the classical Schwarzschild wormhole the call drops the mass argument:
+The arguments are the number of digits `d`, the number of Chebyshev modes `n` (the size of the matrices), the spin `s`,
+the multipole `L` (that is ℓ), the rescaled mass `mu` and the path `p`. The procedure stops if ℓ < s, finds and prints
+the throat x0 (by `fsolve` from x = 0.99, which needs μ > μ_e) and writes `data/M0_n.mat`, `data/M1_n.mat` and
+`data/M2_n.mat` in the ASCII format of MATLAB. For the classical Schwarzschild wormhole the mass is not an argument and
+no root is sought, since its coefficients are polynomials in y:
 
 ```maple
 read "matrixassembler_sbc1.mpl":
 MatrixAssembler(200, 200, 0, 2, "/absolute/path/to/ncwh"):
 ```
 
-**3. Solve and plot in Matlab.** Point the first `addpath` in `chaseQNMs.m` at your
-Advanpix installation, then run:
+All four procedures write files of the same names, so each case is assembled and solved before the next one, or in a
+folder of its own. Then, in MATLAB, make the line `addpath('/path/to/advanpix/')` of `chaseQNMs.m` point to the
+Advanpix toolbox, check that its list of resolutions `list = [200, 150, 100]` matches the assembled ones, and run, from
+the folder of the repository:
 
 ```matlab
 chaseQNMs
 ```
 
-The figure shows the three spectra superposed. The frequencies that lie on top of one
-another across all three resolutions are the converged quasinormal modes.
+For each resolution n the script sets the precision to n digits (`mp.Digits(n)`), reads the three matrices with
+`mp.read`, solves the eigenvalue problem and draws all the spectra in the plane of Re ω and Im ω, one marker per
+resolution; it stops with an error if its list of markers is shorter than `list`. The quasinormal frequencies are the
+eigenvalues that stay in place from one resolution to the next; the others are artefacts of the truncation. The number
+of digits `d` given to Maple must be at least the largest precision that MATLAB requests (200 with the default list).
+The article overlaps n = 100, 150 and 200 and reports values computed with 200 digits.
 
-To sweep spin or angular momentum, change `s` and `L` in step 2 and rerun step 3. To
-change the boundary condition or the model, restart Maple and read the corresponding
-`.mpl` file (see the note below).
+Two checks of the article are reproduced with these files. For a large mass (μ = 10³ in the article) the frequencies of
+`matrixassembler_bc1.mpl` approach those of `matrixassembler_sbc1.mpl`, and those of `matrixassembler_bc2.mpl` those of
+`matrixassembler_sbc2.mpl`: the noncommutative wormhole tends to the classical one. And the two boundary conditions give
+two different spectra of the same wormhole; for the classical one the article finds Case II more damped than Case I.
 
-## Reproducing the classical limit
+## Contents
 
-The convergence of the noncommutative frequencies to the classical Schwarzschild ones
-at large rescaled mass is the accuracy check reported in the paper, and it is
-reproduced entirely with the files here:
+| File | Content |
+|---|---|
+| `01-NONEXTREME CASE_NCWH_BC1-SUPPLEMENTAL MATERIAL.mw` | Maple 18 worksheet: the derivation for the noncommutative wormhole with the field finite at the throat (Case A): the ansatz, the transformed equation, the zeros and poles of its coefficients at y = ±1, the coefficients `L00hat` to `L22hat` and their limits |
+| `01-NONEXTREME CASE_NCWH_BC2-SUPPLEMENTAL MATERIAL.mw` | the same with the field vanishing at the throat (Case B) |
+| `01-FROM THROAT_SCHWARZSCHILD WORMHOLE SUPPL MATERIAL.mw` | the derivation for the classical Schwarzschild wormhole, Case I, with the coefficients `L00` to `L22` |
+| `02-FROM THROAT_SCHWARZSCHILD WORMHOLE SUPPL MATERIAL.mw` | the same, Case II, with the extra factor √(1 − 1/x) |
+| `matrixassembler_bc1.mpl`, `matrixassembler_bc2.mpl` | the Maple procedures for the noncommutative wormhole, Cases A and B: `MatrixAssembler(d, n, s, L, mu, p)` |
+| `matrixassembler_sbc1.mpl`, `matrixassembler_sbc2.mpl` | the Maple procedures for the classical Schwarzschild wormhole, Cases I and II: `MatrixAssembler(d, n, s, L, p)` |
+| `chaseQNMs.m` | the MATLAB driver |
+| `docs/figures/` | the script `plot_readme_figure.py` that draws the figure of this page from f and from the potential, with the style file beside it |
 
-1. assemble and solve with `matrixassembler_sbc1.mpl` (or `sbc2`) for a chosen `s`
-   and `L`, and record the resulting frequencies;
-2. repeat with `matrixassembler_bc1.mpl` (or `bc2`, matching the boundary condition)
-   for the same `s` and `L`, with `mu` taken progressively larger;
-3. compare. The noncommutative spectrum should approach the classical one as `mu`
-   grows.
+The coefficients defined at the end of each worksheet are those that the corresponding procedure evaluates at the
+collocation points. Only the non-extremal case is treated, as the names of the files say.
 
-Running BC1 and BC2 for the same physical configuration gives a second, independent
-check: the two discretisations are built from different factorisations and must agree
-on the physical frequencies.
+## Requirements
 
-## Practical notes
-
-- **The `data/` directory must exist before the first Maple call.** `ExportMatrix`
-  will not create it.
-- **All four procedures share the name `MatrixAssembler`**, so only one of them can
-  be loaded in a Maple session at a time. Restart Maple before switching case.
-  The noncommutative procedures also leave the computed throat `x0` in the global
-  session, which is a further reason to start from a clean state.
-- **The working precision grows with the resolution.** `chaseQNMs.m` calls
-  `mp.Digits(n)`, so a run at `n = 200` operates at 200 decimal digits. Assembly in
-  Maple must be carried out at least as accurately.
-- **The marker list must be long enough.** `chaseQNMs.m` stops with an error if
-  `Marks` has fewer entries than `list`.
+Maple 18 or later, in which the worksheets are saved; the procedures use only `LinearAlgebra`, `ChebyshevT`, `fsolve`
+and `ExportMatrix`. MATLAB with the Advanpix Multiprecision Computing Toolbox (a commercial toolbox), whose `mp` class,
+`mp.Digits`, `mp.read` and multiprecision `polyeig` the driver uses: the eigenvalue problems of this size are not
+resolved in double precision. The figure of this page needs Python 3 with NumPy, SciPy and Matplotlib, and is redrawn
+from `docs/figures/` by `python3 plot_readme_figure.py`.
 
 ## How to cite
 
-If these codes contribute to your work, please cite the paper:
+If you use this code, please cite the article:
 
-> D. Batic, D. Dutykh and J. Jamal Beek, *A spectral approach for quasinormal
-> frequencies of noncommutative geometry-inspired wormholes*, Class. Quantum Grav.
-> **42** (2025) 085003.
+D. Batic, D. Dutykh and J. Jamal Beek, A spectral approach for quasinormal frequencies of noncommutative
+geometry-inspired wormholes, Classical and Quantum Gravity 42, 085003 (2025).
+
+https://doi.org/10.1088/1361-6382/adc2c6
 
 ```bibtex
-@article{Batic2025ncwh,
-  author        = {Batic, Davide and Dutykh, Denys and Jamal Beek, Joudy},
-  title         = {A spectral approach for quasinormal frequencies of
-                   noncommutative geometry-inspired wormholes},
-  journal       = {Classical and Quantum Gravity},
-  volume        = {42},
-  number        = {8},
-  pages         = {085003},
-  year          = {2025},
-  month         = apr,
-  publisher     = {IOP Publishing},
-  doi           = {10.1088/1361-6382/adc2c6},
-  eprint        = {2504.02370},
-  archivePrefix = {arXiv},
-  primaryClass  = {gr-qc},
-  url           = {https://doi.org/10.1088/1361-6382/adc2c6}
+@article{Batic2025a,
+  author = {Batic, Davide and Dutykh, Denys and Jamal Beek, Joudy},
+  title = {A Spectral Approach for Quasinormal Frequencies of Noncommutative Geometry-Inspired Wormholes},
+  journal = {Classical and Quantum Gravity},
+  year = 2025,
+  month = apr,
+  volume = {42},
+  number = {8},
+  pages = {085003},
+  doi = {10.1088/1361-6382/adc2c6},
+  eprint = {2504.02370},
+  archiveprefix = {arXiv}
 }
 ```
 
-## License
+The button "Cite this repository" in the right-hand column of this page gives the same reference, read from
+`CITATION.cff`. A free copy of the article is on arXiv:
 
-Released under the GNU Lesser General Public License, version 2.1. The full text is
-in [`LICENSE`](LICENSE).
+https://arxiv.org/abs/2504.02370
 
-## Authors and contact
+## Licence
 
-| Author | Affiliation | Contact |
-|:--|:--|:--|
-| Dr. Davide Batic | Mathematics Department, Khalifa University of Science and Technology, Abu Dhabi, UAE | [davide.batic@ku.ac.ae](mailto:davide.batic@ku.ac.ae) |
-| Dr. Denys Dutykh | Mathematics Department, Khalifa University of Science and Technology, Abu Dhabi, UAE | [denys.dutykh@ku.ac.ae](mailto:denys.dutykh@ku.ac.ae) |
-| Ms. Joudy Feras Jamal Beek | Physics Department, Khalifa University of Science and Technology, Abu Dhabi, UAE | [KU100061683@alumni.ku.ac.ae](mailto:KU100061683@alumni.ku.ac.ae) |
+GNU Lesser General Public License, version 2.1 (see `LICENSE`).
 
-Questions, corrections and reports of successful reuse are welcome. For the broader
-series of spectral QNM studies, see the
-[QNMs Hall of Fame](https://qnms.denys-dutykh.com/).
+## Authors
+
+Davide Batic and Denys Dutykh (Mathematics Department, Khalifa University of Science and Technology, Abu Dhabi) and
+Joudy Jamal Beek (Physics Department, Khalifa University of Science and Technology, Abu Dhabi). The article is listed,
+with the other studies of quasinormal modes of the same group, in the
+[Quasi-Normal Modes Hall of Fame](https://qnms.denys-dutykh.com/).
+
+https://www.denys-dutykh.com/
